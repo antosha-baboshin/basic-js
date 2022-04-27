@@ -15,41 +15,39 @@ const { NotImplementedError } = require('../extensions/index.js');
  */
  function transform(arr) {
   let res = [];
-  
   if (typeof arr !== 'object' || !(arr instanceof Array)) {
     throw new Error("'arr' parameter must be an instance of the Array!");
   } else {
     for (let i = 0; i < arr.length; i += 1) {
-      console.log(res)
+      console.log(res);
       switch (arr[i]) {
-        case '--discard-next':
-          i += 1; 
+        case '--discard-next': 
           break;
         case '--discard-prev':
-          if (res[res.length - 1] === res[res.length - 2]) {
-            res.pop();
-            res.pop();
-          } else {
+          if (res[res.length - 1] == arr[i - 1]) {
             res.pop();
           }
           break;
         case '--double-next':
           if (arr[i + 1]) {
-            res.push(arr[i + 1]);
+            res.push(arr[i + 1])
           }
           break;
         case '--double-prev':
-          if (arr[i - 1]) {
-            res.push(arr[i - 1]);
+          if (arr[i - 1] & res[res.length - 1] == arr[i - 1]) {
+            res.push(arr[i - 1])
           }
           break;
-        default: 
+        default:
           res.push(arr[i]);
           break;
       }
+      if (arr[i - 1] == '--discard-next') {
+        res.pop();
+      }
     }
     return res;
-  } 
+  }
 }
 
 module.exports = {
